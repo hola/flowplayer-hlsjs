@@ -157,7 +157,8 @@
                             delete hlsClientConf[key];
                         });
                         hls = new Hls(hlsClientConf);
-
+                        if (window)
+                            window.dm_hls_inst = hls;
                         hlsParams.forEach(function (key) {
                             var value = hlsconf[key];
 
