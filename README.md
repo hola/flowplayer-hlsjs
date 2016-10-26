@@ -12,24 +12,13 @@ The plugin relies on the [hls.js](https://github.com/dailymotion/hls.js) client,
 Usage
 -----
 
-In production simply load the latest plugin after the Flowplayer script:
+See: https://flowplayer.org/docs/plugins.html#hlsjs
 
-```html
-<script src="//releases.flowplayer.org/6.0.4/flowplayer.min.js"></script>
-<script src="//releases.flowplayer.org/hlsjs/flowplayer.hlsjs.min.js"></script>
-```
-
-Sources configuration:
-
-```js
-clip: {
-   sources: [
-        { type: "application/x-mpegurl", src: "//example.com/video.m3u8" },
-        { type: "video/webm",            src: "//example.com/video.webm" },
-        { type: "video/mp4",             src: "//example.com/video.mp4" }
-   ]
-}
-```
+- [compatibility](https://flowplayer.org/docs/plugins.html#hlsjs-compatibility)
+- [loading the assets](https://flowplayer.org/docs/plugins.html#hlsjs-assets)
+- [configuration](https://flowplayer.org/docs/plugins.html#hlsjs-configuration)
+- [hlsjs options](https://flowplayer.org/docs/plugins.html#hlsjs-options)
+- [hlsjs API](https://flowplayer.org/docs/plugins.html#hlsjs-api)
 
 ### CommonJS
 
@@ -39,7 +28,8 @@ The plugin can be used in a [browserify](http://browserify.org) and/or
 
 ```js
 var flowplayer = require('flowplayer');
-require('flowplayer-hlsjs'); // Plugin injects itself to flowplayer
+var engine = require('flowplayer-hlsjs');
+engine(flowplayer);
 
 flowplayer('#container', {
   clip: {
@@ -51,40 +41,6 @@ flowplayer('#container', {
 });
 ```
 
-Plugin configuration
---------------------
-
-The plugin provides the `hlsjs` option on the
-[player](https://flowplayer.org/docs/setup.html#player-options) and 
-[clip](https://flowplayer.org/docs/setup.html#player-options) levels.
-
-The `hlsjs` option is an object which accepts all
-[configuration parameters for hls.js](https://github.com/dailymotion/hls.js/blob/master/API.md#fine-tuning)
-which are passed on to the client.
-
-Setting `hlsjs` to `false` can be used to disable the engine for a specific player or clip.
-Convenient when one knows that certain HLS streams are not served with the required [CORS](#cors)
-policy.
-
-### Plugin options
-
-Additionally the `hlsjs` configuration object accepts the following Flowplayer specific parameters:
-
-option   | default value | description
-:------- | :------------ | :----------
-`anamorphic` | `false`   |Set to `true` for streams with a non-square sample aspect ratio. Some browsers do not handle these correctly, and will then not attempt to play them. *Caveat:* As these streams will not be played correctly by <a href="http://flowplayer.org/docs/setup.html#flash-hls">Flash HLS engine</a> either because Flash is agnostic of display aspect ratio, the `application/x-mpegurl` type should be set twice in the sources array, with the `engine` <a href="https://flowplayer.org/docs/setup.html#source-options">source option</a> `hlsjs` and `html5`.
-`autoLevelCapping` | `-1` | Forbids the player to pick a higher clip resolution/bitrate than specified when in ABR mode. Accepts an index number from `0` (lowest) to highest. The default value `-1` means no capping, and may also be specified as boolean `false`.
-`recover` | `0` | Maximum attempts to recover from network and media errors which are considered fatal by hls.js. Set to `-1` for an infinite amount of recovery attempts. - Be careful, the player may have to be rescued from an undefined state.
-`startLevel` | | Tells the player which clip resolution/bitrate to pick initially. Accepts an index number from `0` (lowest) to highest. Defaults to the level listed first in the master playlist, as with [generic HLS playback](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StreamingMediaGuide/UsingHTTPLiveStreaming/UsingHTTPLiveStreaming.html#//apple_ref/doc/uid/TP40008332-CH102-SW18). Set to `-1` or `"auto"` for automatic selection. - To override a specified setting locally with the default, set this to `"firstLevel"`.
-`strict` | `false`       | Set to `true` if you want non fatal `hls.js` errors to trigger Flowplayer errors. Useful for debugging streams and live stream maintenance.
-
-CORS
-----
-
-The HLS streams must be loaded from a server with a
-[cross domain policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)
-permitting `GET` requests.
-
 Demo
 ----
 
@@ -94,26 +50,23 @@ Features
 --------
 
 - packs a compatibility tested version - current:
-  [v0.4.8](https://github.com/dailymotion/hls.js/releases/tag/v0.4.8) - of hls.js
+  [v0.6.2-5](https://github.com/dailymotion/hls.js/releases/tag/v0.6.2-5) - of hls.js
 - by default the engine is only loaded if the browser supports
   [MediaSource extensions](http://w3c.github.io/media-source/) reliably for playback
-
-### Upcoming
-
-Manual quality switching.
+- configurable manual HLS quality selection
 
 Debugging
 ---------
 
 A quick way to find out whether there's a problem with the actual plugin component is to
-run your stream in the [hls.js demo player](http://dailymotion.github.io/hls.js/demo/).
+run your stream in the [hls.js demo player](http://streambox.fr/mse/hls.js-0.6.2-5/demo/).
 
 For fine grained debugging load the unminified components and turn hlsjs debugging on:
 
 ```html
-<script src="//releases.flowplayer.org/6.0.4/flowplayer.min.js"></script>
-<!-- unminified hls.js library -->
-<script src="//releases.flowplayer.org/hlsjs/hls.js"></script>
+<script src="//releases.flowplayer.org/6.0.5/flowplayer.min.js"></script>
+<!-- test a hls.js release -->
+<script src="//cdn.jsdelivr.net/hls.js/0.6.2-5/hls.min.js"></script>
 <!-- separate hlsjs plugin component -->
 <script src="//releases.flowplayer.org/hlsjs/flowplayer.hlsjs.js"></script>
 
@@ -121,7 +74,7 @@ For fine grained debugging load the unminified components and turn hlsjs debuggi
 // turn on hlsjs debugging
 flowplayer.conf.hlsjs = {
   debug: true
-});
+};
 </script>
 ```
 
@@ -136,14 +89,3 @@ cd flowplayer-hlsjs
 make deps
 make
 ```
-
-Known issues and constraints
-----------------------------
-
-- Only codecs which are valid in advanced MP4 video/audio and are supported by MSE are allowed:
-  [MPEG-4 AVC](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC) for video,
-  [AAC](https://en.wikipedia.org/wiki/Advanced_Audio_Coding) for audio.
-- Safari's MSE implementation has fatal problems with
-  [fragmented MP4 playback](https://github.com/dailymotion/hls.js/issues/9) - for the moment the
-  hlsjs engine will only be loaded in Safari for [debugging purposes](#debugging).
-- scarcely tested with live streams by lack of examples where CORS is enabled on the server
