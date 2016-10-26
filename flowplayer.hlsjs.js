@@ -1,6 +1,5 @@
 /*jslint browser: true, for: true, node: true */
 /*global window */
-
 /*!
 
    hlsjs engine plugin for Flowplayer HTML5
@@ -25,6 +24,12 @@
 (function () {
     "use strict";
     var extension = function (Hls, flowplayer) {
+        // XXX arik hack: need to rename engineName to holaHls. cannot be done
+        // without fixing existing autodetect.js and friends and current
+        // code checks for 'hlsjs'
+        // XXX volodymyr: notice that renaming engine affects player.conf
+        // (see engine.canPlay) so need to make sure we can gracefully switch
+        // between hola and non-hola hlsjs engines using the same player conf
         var engineName = "hlsjs",
             hlsconf,
             common = flowplayer.common,
@@ -43,7 +48,7 @@
                         (hlsQualities && hlsQualities.length));
             },
 
-            engineImpl = function hlsjsEngine(player, root) {
+            engineImpl = function hlsjsEngine2(player, root) {
                 var bean = flowplayer.bean,
                     videoTag,
                     hls,
@@ -453,6 +458,8 @@
 
                             hlsClientConf.autoStartLoad = false;
 
+                            hlsClientConf = extend(hlsClientConf,
+                                flowplayer.hola_config);
                             hls = new Hls(hlsClientConf);
                             player.engine[engineName] = hls;
 
@@ -610,6 +617,7 @@
         if (Hls.isSupported() && version.indexOf("5.") !== 0) {
             // only load engine if it can be used
             engineImpl.engineName = engineName; // must be exposed
+            engineImpl.holaEngine = true;
             engineImpl.canPlay = function (type, conf) {
                 var b = support.browser,
                     wn = window.navigator,
