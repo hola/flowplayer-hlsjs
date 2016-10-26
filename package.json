@@ -1,6 +1,6 @@
 {
   "name": "flowplayer-hlsjs",
-  "version": "0.1.0",
+  "version": "0.1.0-1",
   "description": "Flowplayer HLS.js plugin",
   "main": "flowplayer.hlsjs.js",
   "scripts": {
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/flowplayer/flowplayer-hlsjs"
+    "url": "https://github.com/hola/flowplayer-hlsjs"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/flowplayer/flowplayer-hlsjs/issues"
+    "url": "https://github.com/hola/flowplayer-hlsjs/issues"
   },
-  "homepage": "https://github.com/flowplayer/flowplayer-hlsjs",
+  "homepage": "https://github.com/hola/flowplayer-hlsjs",
   "dependencies": {
     "hls.js": "0.6.2-5",
     "webworkify-webpack": "^1.0.4"
