@@ -24,13 +24,7 @@
 (function () {
     "use strict";
     var extension = function (Hls, flowplayer) {
-        // XXX arik hack: need to rename engineName to holaHls. cannot be done
-        // without fixing existing autodetect.js and friends and current
-        // code checks for 'hlsjs'
-        // XXX volodymyr: notice that renaming engine affects player.conf
-        // (see engine.canPlay) so need to make sure we can gracefully switch
-        // between hola and non-hola hlsjs engines using the same player conf
-        var engineName = "hlsjs",
+        var engineName = "holaHls",
             hlsconf,
             common = flowplayer.common,
             extend = flowplayer.extend,
@@ -629,10 +623,11 @@
                 }
 
                 // merge hlsjs clip config at earliest opportunity
+                // XXX pavlo: we load 'hlsjs' provider config, not 'holaHls', that's what customers provide
                 hlsconf = extend({
                     smoothSwitching: true,
                     recover: 0
-                }, flowplayer.conf[engineName], conf[engineName], conf.clip[engineName]);
+                }, flowplayer.conf.hlsjs, conf.hlsjs, conf.clip.hlsjs);
 
                 if (isHlsType(type)) {
                     // allow all browsers for hlsjs debugging
