@@ -34,14 +34,6 @@ lines.forEach(function (line) {
 
 module.exports = {
   entry: {'flowplayer.hlsjs': ['./flowplayer.hlsjs.js']},
-  externals: {
-    flowplayer: 'flowplayer'
-  },
-  module: {
-    loaders: [
-      { test: /\/hls\.js\/.+/, loader: 'babel', query: { presets: ['es2015'] } }
-    ]
-  },
   output: {
     library: 'HolaFlowplayerHlsProvider',
     path: path.join(__dirname, 'dist'),
@@ -50,7 +42,6 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.NormalModuleReplacementPlugin(/^webworkify$/, 'webworkify-webpack'),
     new WrapperPlugin({header: headerComment, footer: footerComment}),
     new webpack.BannerPlugin(banner, {raw: true})
   ]
