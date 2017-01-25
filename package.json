@@ -1,27 +1,39 @@
 {
-  "name": "flowplayer-hlsjs",
-  "version": "0.1.0-hola.3",
+  "name": "@hola.org/flowplayer-hlsjs",
+  "version": "0.1.0-hola.4",
   "description": "Flowplayer HLS.js plugin",
   "main": "flowplayer.hlsjs.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "jslint --edition=latest --devel flowplayer.hlsjs.js",
     "build": "webpack",
-    "dev": "webpack --progress --colors --watch"
+    "login": "c=`npm c ls`; test \"${c#*@hola}\" != \"$c\" || npm login --scope @hola.org",
+    "release": "run-s build login release:*",
+    "release:tag": "git tag v$npm_package_version",
+    "release:publish": "npm publish",
+    "release:pushtags": "git push --tags origin"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/hola/flowplayer-hlsjs"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hola/flowplayer-hlsjs/issues"
   },
   "homepage": "https://github.com/hola/flowplayer-hlsjs",
+  "files": [
+    "Makefile",
+    "flowplayer.hlsjs.js",
+    "footConditionalComment.js",
+    "headConditionalComment.js",
+    "webpack.config.js",
+    "dist/"
+  ],
   "dependencies": {},
   "devDependencies": {
     "jslint": "^0.9.5",
+    "npm-run-all": "^4.0.1",
     "webpack": "^1.12.13",
     "wrapper-webpack-plugin": "^0.1.7"
   },
