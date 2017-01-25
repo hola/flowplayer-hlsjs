@@ -33,7 +33,7 @@ lines.forEach(function (line) {
 });
 
 module.exports = {
-  entry: {'flowplayer.hlsjs.min': ['./standalone.js']},
+  entry: {'flowplayer.hlsjs': ['./flowplayer.hlsjs.js']},
   externals: {
     flowplayer: 'flowplayer'
   },
@@ -43,16 +43,13 @@ module.exports = {
     ]
   },
   output: {
+    library: 'HolaFlowplayerHlsProvider',
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    libraryTarget: 'umd',
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.optimize.UglifyJsPlugin({
-      include: /\.min\.js$/,
-      mangle: true,
-      output: { comments: false }
-    }),
     new webpack.NormalModuleReplacementPlugin(/^webworkify$/, 'webworkify-webpack'),
     new WrapperPlugin({header: headerComment, footer: footerComment}),
     new webpack.BannerPlugin(banner, {raw: true})
