@@ -42,7 +42,7 @@ module.exports = {
   },
   module: {
     loaders: [{
-      test: ,
+      test: path.join(__dirname, 'flowplayer.hlsjs.js'),
       loader: 'transform-loader?browserify-versionify',
     }],
   },
