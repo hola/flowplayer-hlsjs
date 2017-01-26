@@ -676,3 +676,4 @@ exports.detach = function() {
     engine_disabled = true;
 }
 
+exports.VERSION = '__VERSION__';

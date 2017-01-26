@@ -30,10 +30,15 @@
     "webpack.config.js",
     "dist/"
   ],
+  "browserify": {
+    "transform": ["browserify-versionify"]
+  },
   "dependencies": {},
   "devDependencies": {
+    "browserify-versionify": "^1.0.6",
     "jslint": "^0.9.5",
     "npm-run-all": "^4.0.1",
+    "transform-loader": "^0.2.3",
     "webpack": "^1.12.13",
     "wrapper-webpack-plugin": "^0.1.7"
   },

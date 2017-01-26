@@ -40,6 +40,12 @@ module.exports = {
     filename: '[name].js',
     libraryTarget: 'umd',
   },
+  module: {
+    loaders: [{
+      test: ,
+      loader: 'transform-loader?browserify-versionify',
+    }],
+  },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new WrapperPlugin({header: headerComment, footer: footerComment}),
