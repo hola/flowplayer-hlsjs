@@ -22,6 +22,7 @@
 
 */
 "use strict";
+var E = module.exports;
 var engine_attached = false, engine_disabled = false;
 var extension = function (Hls, flowplayer, hlsjsConfig) {
     var engineName = "holaHls",
@@ -660,20 +661,22 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
 
 };
 
-exports.attach = function(Hls_, flowplayer, hlsjsConfig) {
+E.attach = function(Hls, flowplayer, hlsjsConfig) {
     if (engine_attached) {
         engine_disabled = false;
     } else {
-        extension(Hls_, flowplayer, hlsjsConfig);
+        extension(Hls||E.Hls||window.Hls,
+            flowplayer||E.flowplayer||window.flowplayer, hlsjsConfig);
         engine_attached = true;
         engine_disabled = false;
     }
 }
 
-exports.detach = function() {
+E.detach = function() {
     // we don't remove engine from list, just set it as disabled so it will
     // return false in canPlay()
     engine_disabled = true;
 }
 
-exports.VERSION = '__VERSION__';
+E.VERSION = '__VERSION__';
+ 
