@@ -613,7 +613,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
         engineImpl.engineName = engineName; // must be exposed
         engineImpl.holaEngine = true;
         engineImpl.canPlay = function (type, conf) {
-            if (engine_disabled)
+            if (engine_disabled||engine_force_disabled)
                 return false;
             var b = support.browser,
                 wn = window.navigator,
@@ -661,7 +661,26 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
 
 };
 
+var engine_force_disabled = (function filter_out(){
+    var reg_attr = 'register-percent';
+    var script = document.currentScript||
+        document.querySelector('#hola_flowplayer_hls_provider');
+    if (!script||!script.hasAttribute(reg_attr))
+        return false;
+    var conf = +script.getAttribute(reg_attr);
+    if (isNaN(conf)||conf<0||conf>100)
+    {
+        console.error('Hola flowplayer HLS provider: invalid '+reg_attr
+            +' attribute, expected a value between 0 and 100 but '+
+            script.getAttribute(reg_attr)+' found');
+        return false;
+    }
+    return !conf||Math.random()*100>conf;
+})();
+
 E.attach = function(Hls, flowplayer, hlsjsConfig) {
+    if (engine_force_disabled)
+        return;
     if (engine_attached) {
         engine_disabled = false;
     } else {
@@ -673,10 +692,12 @@ E.attach = function(Hls, flowplayer, hlsjsConfig) {
 }
 
 E.detach = function() {
+    if (engine_force_disabled)
+        return;
     // we don't remove engine from list, just set it as disabled so it will
     // return false in canPlay()
     engine_disabled = true;
 }
 
 E.VERSION = '__VERSION__';
- 
+
