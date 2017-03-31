@@ -695,13 +695,13 @@ E.attach = function(Hls, flowplayer, hlsjsConfig) {
         engine_attached = true;
         engine_disabled = false;
     }
-}
+};
 
 E.detach = function() {
     // we don't remove engine from list, just set it as disabled so it will
     // return false in canPlay()
     engine_disabled = true;
-}
+};
 
 E.VERSION = '__VERSION__';
 
