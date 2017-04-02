@@ -1,6 +1,6 @@
 {
   "name": "@hola.org/flowplayer-hlsjs",
-  "version": "0.1.0-hola.10",
+  "version": "0.1.0-hola.11",
   "description": "Flowplayer HLS.js plugin",
   "main": "flowplayer.hlsjs.js",
   "scripts": {
@@ -31,7 +31,9 @@
     "dist/"
   ],
   "browserify": {
-    "transform": ["browserify-versionify"]
+    "transform": [
+      "browserify-versionify"
+    ]
   },
   "dependencies": {},
   "devDependencies": {
