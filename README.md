@@ -6,8 +6,7 @@ playback of [HLS](https://flowplayer.org/docs/setup.html#hls) streams in browser
 support playback of HLS in a VIDEO tag, and without the need for
 [Flash](https://flowplayer.org/docs/setup.html#flash-hls).
 
-The plugin relies on the [hls.js](https://github.com/dailymotion/hls.js) client, courtesy of
-[dailymotion](http://www.dailymotion.com).
+The plugin relies on the [hls.js](https://github.com/video-dev/hls.js) client library.
 
 Usage
 -----
@@ -19,6 +18,14 @@ See: https://flowplayer.org/docs/plugins.html#hlsjs
 - [configuration](https://flowplayer.org/docs/plugins.html#hlsjs-configuration)
 - [hlsjs options](https://flowplayer.org/docs/plugins.html#hlsjs-options)
 - [hlsjs API](https://flowplayer.org/docs/plugins.html#hlsjs-api)
+
+### Installation
+
+The plugin can be installed with:
+
+```
+npm install --save flowplayer/flowplayer-hlsjs
+```
 
 ### CommonJS
 
@@ -50,7 +57,7 @@ Features
 --------
 
 - packs a compatibility tested version - current:
-  [v0.6.2-5](https://github.com/dailymotion/hls.js/releases/tag/v0.6.2-5) - of hls.js
+  [v0.6.1-129](https://github.com/hola/hls.js/archive/v0.6.1-129.zip) - of hls.js
 - by default the engine is only loaded if the browser supports
   [MediaSource extensions](http://w3c.github.io/media-source/) reliably for playback
 - configurable manual HLS quality selection
@@ -59,14 +66,14 @@ Debugging
 ---------
 
 A quick way to find out whether there's a problem with the actual plugin component is to
-run your stream in the [hls.js demo player](http://streambox.fr/mse/hls.js-0.6.2-5/demo/).
+run your stream in the [hls.js demo player](http://streambox.fr/mse/hls.js-0.7.5/demo/).
 
 For fine grained debugging load the unminified components and turn hlsjs debugging on:
 
 ```html
-<script src="//releases.flowplayer.org/6.0.5/flowplayer.min.js"></script>
+<script src="//releases.flowplayer.org/7.0.2/flowplayer.min.js"></script>
 <!-- test a hls.js release -->
-<script src="//cdn.jsdelivr.net/hls.js/0.6.2-5/hls.min.js"></script>
+<script src="//cdn.jsdelivr.net/hola_hap/latest/hola_hls.js"></script>
 <!-- separate hlsjs plugin component -->
 <script src="//releases.flowplayer.org/hlsjs/flowplayer.hlsjs.js"></script>
 

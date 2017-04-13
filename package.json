@@ -1,12 +1,14 @@
 {
   "name": "@hola.org/flowplayer-hlsjs",
-  "version": "0.1.0-hola.11",
+  "version": "1.0.6-hola.1",
   "description": "Flowplayer HLS.js plugin",
   "main": "flowplayer.hlsjs.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "jslint --edition=latest --devel flowplayer.hlsjs.js",
     "build": "webpack",
+    "dev": "webpack --progress --colors --watch",
+    "min": "uglifyjs -m -c < flowplayer.hlsjs.js",
     "login": "c=`npm c ls`; test \"${c#*@hola}\" != \"$c\" || npm login --scope @hola.org",
     "release": "run-s build login release:*",
     "release:tag": "git tag v$npm_package_version",
@@ -36,6 +38,9 @@
     ]
   },
   "dependencies": {},
+  "peerDependencies": {
+    "flowplayer": "^6.0.3 || ^7.0.2"
+  },
   "devDependencies": {
     "browserify-versionify": "^1.0.6",
     "jslint": "^0.9.5",
