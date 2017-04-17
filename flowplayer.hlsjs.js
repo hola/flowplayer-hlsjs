@@ -586,12 +586,21 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
 
                             if (!coreV6) {
                                 player.on("quality." + engineName, function (_e, _api, q) {
-                                    if (hlsUpdatedConf.smoothSwitching) {
-                                        hls.nextLevel = q;
-                                    } else {
-                                        hls.currentLevel = q;
-                                    }
                                     lastSelectedLevel = q;
+                                    if (q == hls.manual_level)
+                                    {
+                                        return;
+                                    }
+
+                                    hls.manual_level = q;
+                                    if (hls.hola_adaptive)
+                                    {
+                                        player.trigger("hola_quality_change");
+                                    }
+                                    else
+                                    {
+                                        hls.loadLevel = hls.manual_level;
+                                    }
                                 });
 
                             } else if (conf.poster) {
