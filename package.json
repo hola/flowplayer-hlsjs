@@ -38,9 +38,6 @@
     ]
   },
   "dependencies": {},
-  "peerDependencies": {
-    "flowplayer": "^6.0.3 || ^7.0.2"
-  },
   "devDependencies": {
     "browserify-versionify": "^1.0.6",
     "jslint": "^0.9.5",
