@@ -22,7 +22,8 @@
 */
 "use strict";
 var E = module.exports;
-var ls = window.localStorage;
+var ls;
+try { ls = window.localStorage; } catch(e){}
 var provider_name = 'Hola Flowplayer HLS provider';
 var engine_attached = false, engine_disabled = false;
 var script_conf = (function script_conf_init(){
