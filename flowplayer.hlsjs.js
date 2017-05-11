@@ -892,6 +892,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
         };
 
     if (Hls.isSupported() && version.indexOf("5.") !== 0) {
+        console.log('init hola/hls provider v'+E.VERSION+' hls v'+Hls.version);
         // only load engine if it can be used
         engineImpl.engineName = engineName; // must be exposed
         engineImpl.holaEngine = true;
