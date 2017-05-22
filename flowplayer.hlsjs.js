@@ -27,6 +27,37 @@ try { ls = window.localStorage; } catch(e){}
 var provider_name = 'Hola Flowplayer HLS provider';
 var engine_attached = false, engine_disabled = false;
 var script_conf = (function script_conf_init(){
+    // XXX vadiml copied from pkg/util/conv.js to avoid dependency
+    function parse_leaf(v, opt){
+        if (!v || typeof v!='object' || Object.keys(v).length!=1)
+            return v;
+        if (v.__Function__ && opt.func)
+            return new Function('', '"use strict";return ('+v.__Function__+');')();
+        if (v.__RegExp__ && opt.re)
+        {
+            var parsed = /^\/(.*)\/(\w*)$/.exec(v.__RegExp__);
+            if (!parsed)
+                throw new Error('failed parsing regexp');
+            return new RegExp(parsed[1], parsed[2]);
+        }
+        return v;
+    }
+    function parse_obj(v, opt){
+        if (!v || typeof v!='object')
+            return v;
+        if (Array.isArray(v))
+        {
+            for (var i = 0; i<v.length; i++)
+                v[i] = parse_obj(v[i], opt);
+            return v;
+        }
+        var v2 = parse_leaf(v, opt);
+        if (v2!==v)
+            return v2;
+        for (var key in v)
+            v[key] = parse_obj(v[key], opt);
+        return v;
+    }
     var attrs = {register: 'register-percent', manual_init: 'manual-init'};
     var script = document.currentScript||
         document.querySelector('#hola_flowplayer_hls_provider');
@@ -62,7 +93,13 @@ var script_conf = (function script_conf_init(){
             '% by localStorage configuration');
     }
     var autoinit = !embedded && !script.hasAttribute(attrs.manual_init);
-    return {autoinit: autoinit,
+    var hls_params_str = '{[=it.HOLA_HLS_PARAMS]}';
+    var hls_params = {};
+    try {
+        hls_params = parse_obj(JSON.parse(hls_params_str),
+            {func: true, re: true});
+    } catch(e){}
+    return {autoinit: autoinit, hls_params: hls_params,
         disabled: !rpercent||Math.random()*100>rpercent};
 })();
 var extension = function (Hls, flowplayer, hlsjsConfig) {
@@ -422,7 +459,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
                             autoplay = !!video.autoplay || !!conf.autoplay,
                             loadingClass = "is-loading",
                             hlsQualitiesConf = video.hlsQualities || conf.hlsQualities,
-                            hlsUpdatedConf = extend(hlsconf, conf.hlsjs, video.hlsjs),
+                            hlsUpdatedConf = extend(hlsconf, conf.hlsjs, video.hlsjs, script_conf.hls_params),
                             hlsClientConf = extend({}, hlsUpdatedConf);
 
                         // allow disabling level selection for single clips
