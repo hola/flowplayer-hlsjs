@@ -690,6 +690,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
                                             });
                                         });
                                     }
+                                    hls.startLoad(hlsClientConf.startPosition);
                                     break;
 
                                 case "FRAG_LOADED":
