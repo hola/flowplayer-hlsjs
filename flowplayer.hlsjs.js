@@ -888,6 +888,11 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
         // so hlsjs is tested before html5 video hls and flash hls
         flowplayer.engines.unshift(engineImpl);
 
+        // XXX pavlo: prevent other engines being registered before
+        flowplayer.engines.unshift = function(e){
+            flowplayer.engines.splice(1, 0, e);
+            return flowplayer.engines.length;
+        };
         if (coreV6) {
             flowplayer(function (api) {
                 // to take precedence over VOD quality selector
