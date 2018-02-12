@@ -1,6 +1,6 @@
 {
   "name": "@hola.org/flowplayer-hlsjs",
-  "version": "1.0.6-hola.12",
+  "version": "1.0.6-hola.13",
   "description": "Flowplayer HLS.js plugin",
   "main": "flowplayer.hlsjs.js",
   "scripts": {
