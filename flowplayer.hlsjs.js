@@ -377,7 +377,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
                                 error: "error"
                             },
                             HLSEVENTS = Hls.Events,
-                            autoplay = !!video.autoplay || !!conf.autoplay,
+                            autoplay = !!video.autoplay || !!conf.autoplay || !!conf.splash,
                             loadingClass = "is-loading",
                             hlsQualitiesConf = video.hlsQualities || conf.hlsQualities,
                             hlsUpdatedConf = extend(hlsconf, conf.hlsjs, video.hlsjs, E.hls_params||{}),
