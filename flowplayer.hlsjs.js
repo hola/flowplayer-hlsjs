@@ -126,15 +126,14 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
                 qActive = "active",
                 dataQuality = function (quality) {
                     // e.g. "Level 1" -> "level1"
-                    if (!quality) {
-                        quality = player.quality;
-                    }
+                    quality = quality ? player.qualities.indexOf(quality)<0 ?
+                        'abr' : quality : player.quality;
                     return quality.toLowerCase().replace(/\ /g, "");
                 },
                 removeAllQualityClasses = function () {
                     var qualities = player.qualities;
 
-                    if (!qualities || !qualities.length) {
+                    if (!qualities) {
                         return;
                     }
                     common.removeClass(root, "quality-abr");
@@ -788,7 +787,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
 
                         hls.attachMedia(videoTag);
 
-                        if (!support.firstframe && autoplay && videoTag.paused) {
+                        if (autoplay && videoTag.paused) {
                             var playPromise = videoTag.play();
                             if (playPromise !== undefined) {
                                 playPromise.catch(function () {
