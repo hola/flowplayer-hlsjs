@@ -398,6 +398,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
                                     source.removeAttribute("src");
                                 });
                                 videoTag.removeAttribute("src");
+                                delete videoTag.load;
                                 videoTag.load();
                                 common.removeNode(videoTag);
                             }
@@ -784,9 +785,16 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
                                 hls.loadLevel = hls.loadLevel;
                             });
                         }
-
+                        if (support.android && !support.android.firefox ||
+                            /Silk/.test(window.navigator.userAgent))
+                        {
+                            videoTag.load = function(){
+                                if (player.video.src==hls.url)
+                                    return;
+                                hls.loadSource(player.video.src);
+                            };
+                        }
                         hls.attachMedia(videoTag);
-
                         if (autoplay && videoTag.paused) {
                             var playPromise = videoTag.play();
                             if (playPromise !== undefined) {
@@ -829,6 +837,7 @@ var extension = function (Hls, flowplayer, hlsjsConfig) {
 
                             hls.destroy();
                             hls = 0;
+                            delete videoTag.load;
                             qClean();
                             player.off(listeners);
                             bean.off(root, listeners);
